@@ -1,0 +1,38 @@
+services:
+  ui:
+    container_name: ui-planned
+    image: ui-planned-image
+    build:
+      context: client
+      dockerfile: Dockerfile.development
+    ports:
+      - 8000:8000
+    stdin_open: true
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    restart: no
+    networks:
+      - react-express
+    env_file:
+      - ./client/.env
+  server: 
+    container_name: server-planned
+    image: server-planned-image
+    build:
+      context: server
+      dockerfile: Dockerfile.development
+    ports:
+      - 4200:4200
+    stdin_open: true
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    restart: no
+    networks:
+      - react-express
+    env_file:
+      - ./server/.env
+
+networks:
+  react-express:
